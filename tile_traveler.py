@@ -32,8 +32,25 @@ def valid_directions():
 
     return valid
 
+def valid_travel_print():
+    
+
+
 def move_player(user_input):
-    pass
+    valid = valid_directions()
+    user_input_clean = user_input.strip().lower()
+    if user_input_clean in valid:
+        if user_input_clean == "s":
+            y -= 1
+        elif user_input_clean == "w":
+            x -= 1
+        elif user_input_clean == "n":
+            y += 1
+        elif user_input_clean == "e":
+            x += 1
+        
+            
+
 
 x = 1
 y = 1
