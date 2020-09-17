@@ -7,7 +7,7 @@ def valid_directions(x, y):
     """
     returns valid directions for player in string format
     """
-    print(x == 1, y)
+    #print(x == 1, y)
     valid = "nesw"
     if x == 1:
         valid = valid.replace("w", "")
@@ -17,7 +17,7 @@ def valid_directions(x, y):
         valid = valid.replace("e", "")
     if y == 3:
         valid = valid.replace("n", "")
-    print(valid)
+    #print(valid)
     if x == 1 and y == 1:
         valid = valid.replace("e", "")
     elif x == 2 and y == 1:
@@ -34,27 +34,36 @@ def valid_directions(x, y):
     return valid
 
 def valid_travel_print(x, y):
+    """
+    prints the valid directgion for the player
+    t.d. You can travel: (N)orth.
+         You can travel: (N)orth or (S)outh.
+    """
     valid = valid_directions(x, y)
-    print(valid)
-    print("You can travel: ", end="")
+    #print(valid)
+    print("You can travel:", end="")
     to_print = ""
     for i in valid:
-        if i == valid[-1] and i != valid[0]:
+        if i != valid[0]:
             to_print += " or"
         if i == "n":
-            to_print += " (N)orth "
+            to_print += " (N)orth"
         elif i == "e":
-            to_print += " (E)ast "
+            to_print += " (E)ast"
         elif i == "s":
-            to_print += " (S)outh "
+            to_print += " (S)outh"
         elif i == "w":
-            to_print += " (W)est "
+            to_print += " (W)est"
         
     print(to_print + ".")
 
 
 def move_player(user_input, x, y):
-    valid = valid_directions()
+    """
+    changes the player coordinets according to user input
+    returns new x and y coordinets
+    """
+    valid = valid_directions(x, y)
     user_input_clean = user_input.strip().lower()
     if user_input_clean in valid:
         if user_input_clean == "s":
@@ -65,6 +74,10 @@ def move_player(user_input, x, y):
             y += 1
         elif user_input_clean == "e":
             x += 1
+    else:
+        print("Not a valid direction!")
+    
+    return (x, y)
         
             
 
@@ -75,9 +88,13 @@ y = 1
 kill = False
 
 while not kill:
-    valid_travel_print(x, y)
+    valid_travel_print(x, y) 
+
     user_input = input("Direction: ")
-    
+
+    x, y = move_player(user_input, x, y)
+
+    # Victory condition
     if x == 3 and y == 1:
         print("Victory!")
         kill = True
