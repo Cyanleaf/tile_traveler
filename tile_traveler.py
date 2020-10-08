@@ -74,7 +74,9 @@ def move_player(user_input, x, y):
             y += 1
         elif user_input_clean == "e":
             x += 1
+        prev_pos[0] = False
     else:
+        prev_pos[0] = True
         print("Not a valid direction!")
     
     return (x, y)
@@ -100,6 +102,7 @@ def lever_positions(x, y, coins):
 
 x = 1
 y = 1
+prev_pos = [False]
 coins_taken = [False, False, False, False]
 coins = 0
 
@@ -111,7 +114,8 @@ while not kill:
     user_input = input("Direction: ")
 
     x, y = move_player(user_input, x, y)
-    coins = lever_positions(x, y, coins)
+    if not prev_pos[0]:
+        coins = lever_positions(x, y, coins)
 
     # Victory condition
     if x == 3 and y == 1:
