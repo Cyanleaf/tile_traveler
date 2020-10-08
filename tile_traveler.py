@@ -100,24 +100,38 @@ def lever_positions(x, y, coins):
         coins = lever_logic(coins, 3)
     return coins
 
-x = 1
-y = 1
-prev_pos = [False]
+
 coins_taken = [False, False, False, False]
-coins = 0
+prev_pos = [False]
 
-kill = False
+def gmae_logic():
+    x = 1
+    y = 1
+    coins = 0
+    kill = False
+    while not kill:
+        valid_travel_print(x, y) 
 
-while not kill:
-    valid_travel_print(x, y) 
+        user_input = input("Direction: ")
 
-    user_input = input("Direction: ")
+        x, y = move_player(user_input, x, y)
+        if not prev_pos[0]:
+            coins = lever_positions(x, y, coins)
 
-    x, y = move_player(user_input, x, y)
-    if not prev_pos[0]:
-        coins = lever_positions(x, y, coins)
+        # Victory condition
+        if x == 3 and y == 1:
+            print("Victory! Total coins {}.".format(coins))
+            kill = True
 
-    # Victory condition
-    if x == 3 and y == 1:
-        print("Victory! Total coins {}.".format(coins))
-        kill = True
+def main():
+    while True:
+        gmae_logic()
+        cmd = input('Play again (y/n): ').strip()
+        if cmd.lower() != 'y':
+            break
+        else:
+            coins_taken.clear()
+            coins_taken.extend([False, False, False, False])
+            prev_pos[0] = False
+
+main()
