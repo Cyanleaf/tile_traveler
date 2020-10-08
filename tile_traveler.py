@@ -79,26 +79,23 @@ def move_player(user_input, x, y):
     
     return (x, y)
 
-def lever_logic(coins):
+def lever_logic(coins, coin_pos):
     user_input = input('Pull a lever (y/n): ').strip()
-    if user_input.lower() == 'y':
+    if user_input.lower() == 'y' and not coins_taken[coin_pos]:
         coins += 1
+        coins_taken[coin_pos] = True
         print('You received 1 coin, your total is now {}.'.format(coins))
     return coins
 
 def lever_positions(x, y, coins):
-    if x ==1 and y ==2 and not coins_taken[0]:
-        coins = lever_logic(coins)
-        coins_taken[0] = True
-    elif x ==2 and y == 2 and not coins_taken[1]:
-        coins = lever_logic(coins)
-        coins_taken[0] = True
-    elif x == 2 and y == 3 and not coins_taken[2]:
-        coins = lever_logic(coins)
-        coins_taken[0] = True
-    elif x == 3 and y == 2 and not coins_taken[3]:
-        coins = lever_logic(coins)
-        coins_taken[0] = True
+    if x == 1 and y == 2:
+        coins = lever_logic(coins, 0)
+    elif x == 2 and y == 2:
+        coins = lever_logic(coins, 1)
+    elif x == 2 and y == 3:
+        coins = lever_logic(coins, 2)
+    elif x == 3 and y == 2:
+        coins = lever_logic(coins, 3)
     return coins
 
 x = 1
