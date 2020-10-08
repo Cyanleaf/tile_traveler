@@ -1,5 +1,5 @@
 """
-https://github.com/Kristjan-O-Ragnarsson/tile_traveler
+https://github.com/Cyanleaf/tile_traveler
 tile taveler a til movement program move betvine tiles in a 3x3 env
 """
 
@@ -78,12 +78,33 @@ def move_player(user_input, x, y):
         print("Not a valid direction!")
     
     return (x, y)
-        
-            
 
+def lever_logic(coins):
+    user_input = input('Pull a lever (y/n): ').strip()
+    if user_input.lower() == 'y':
+        coins += 1
+        print('You received 1 coin, your total is now {}.'.format(coins))
+    return coins
+
+def lever_positions(x, y, coins):
+    if x ==1 and y ==2 and not coins_taken[0]:
+        coins = lever_logic(coins)
+        coins_taken[0] = True
+    elif x ==2 and y == 2 and not coins_taken[1]:
+        coins = lever_logic(coins)
+        coins_taken[0] = True
+    elif x == 2 and y == 3 and not coins_taken[2]:
+        coins = lever_logic(coins)
+        coins_taken[0] = True
+    elif x == 3 and y == 2 and not coins_taken[3]:
+        coins = lever_logic(coins)
+        coins_taken[0] = True
+    return coins
 
 x = 1
 y = 1
+coins_taken = [False, False, False, False]
+coins = 0
 
 kill = False
 
@@ -93,8 +114,9 @@ while not kill:
     user_input = input("Direction: ")
 
     x, y = move_player(user_input, x, y)
+    coins = lever_positions(x, y, coins)
 
     # Victory condition
     if x == 3 and y == 1:
-        print("Victory!")
+        print("Victory! Total coins {}.".format(coins))
         kill = True
