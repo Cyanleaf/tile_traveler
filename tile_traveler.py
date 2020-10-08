@@ -85,10 +85,9 @@ def move_player(user_input, x, y):
 
 def lever_logic(coins, coin_pos):
     pull_lever = random.choice(["YES", "NO"])
-    user_input = input('Pull a lever (y/n): ').strip()
-    if pull_lever == 'YES' and not coins_taken[coin_pos]:
+    print('Pull a lever (y/n): {}'.format(pull_lever[0].lower()))
+    if pull_lever == 'YES':
         coins += 1
-        coins_taken[coin_pos] = True
         print('You received 1 coin, your total is now {}.'.format(coins))
     return coins
 
@@ -104,19 +103,22 @@ def lever_positions(x, y, coins):
     return coins
 
 
-coins_taken = [False, False, False, False]
 prev_pos = [False]
 
 def game_logic():
+    random_seed = int(input("Input seed: "))
+    random.seed(random_seed)
     x = 1
     y = 1
     coins = 0
     kill = False
+    moves = 0
     while not kill:
-        random_seed = input("Input seed: ")
         valid_travel_print(x, y)
         direction = random.choice(["NORTH", "EAST", "SOUTH", "WEST"])
         user_input = direction[0].lower()
+        print('Direction: {}'.format(user_input))
+        moves += 1
 
         x, y = move_player(user_input, x, y)
         if not prev_pos[0]:
@@ -124,7 +126,7 @@ def game_logic():
 
         # Victory condition
         if x == 3 and y == 1:
-            print("Victory! Total coins {}.".format(coins))
+            print("Victory! Total coins {}. Moves {}.".format(coins, moves))
             kill = True
 
 def main():
@@ -134,8 +136,6 @@ def main():
         if cmd.lower() != 'y':
             break
         else:
-            coins_taken.clear()
-            coins_taken.extend([False, False, False, False])
             prev_pos[0] = False
 
 main()
