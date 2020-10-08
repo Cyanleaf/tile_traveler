@@ -3,6 +3,8 @@ https://github.com/Cyanleaf/tile_traveler
 tile taveler a til movement program move betvine tiles in a 3x3 env
 """
 
+import random
+
 def valid_directions(x, y):
     """
     returns valid directions for player in string format
@@ -82,8 +84,9 @@ def move_player(user_input, x, y):
     return (x, y)
 
 def lever_logic(coins, coin_pos):
+    pull_lever = random.choice(["YES", "NO"])
     user_input = input('Pull a lever (y/n): ').strip()
-    if user_input.lower() == 'y' and not coins_taken[coin_pos]:
+    if pull_lever == 'YES' and not coins_taken[coin_pos]:
         coins += 1
         coins_taken[coin_pos] = True
         print('You received 1 coin, your total is now {}.'.format(coins))
@@ -104,15 +107,16 @@ def lever_positions(x, y, coins):
 coins_taken = [False, False, False, False]
 prev_pos = [False]
 
-def gmae_logic():
+def game_logic():
     x = 1
     y = 1
     coins = 0
     kill = False
     while not kill:
-        valid_travel_print(x, y) 
-
-        user_input = input("Direction: ")
+        random_seed = input("Input seed: ")
+        valid_travel_print(x, y)
+        direction = random.choice(["NORTH", "EAST", "SOUTH", "WEST"])
+        user_input = direction[0].lower()
 
         x, y = move_player(user_input, x, y)
         if not prev_pos[0]:
@@ -125,7 +129,7 @@ def gmae_logic():
 
 def main():
     while True:
-        gmae_logic()
+        game_logic()
         cmd = input('Play again (y/n): ').strip()
         if cmd.lower() != 'y':
             break
