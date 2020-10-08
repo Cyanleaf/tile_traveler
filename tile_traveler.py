@@ -1,6 +1,6 @@
 """
 https://github.com/Cyanleaf/tile_traveler
-tile taveler a til movement program move betvine tiles in a 3x3 env
+tile traveller: a tile movement program move between tiles in a 3x3 environment.
 """
 
 import random
@@ -9,7 +9,6 @@ def valid_directions(x, y):
     """
     returns valid directions for player in string format
     """
-    #print(x == 1, y)
     valid = "nesw"
     if x == 1:
         valid = valid.replace("w", "")
@@ -19,7 +18,6 @@ def valid_directions(x, y):
         valid = valid.replace("e", "")
     if y == 3:
         valid = valid.replace("n", "")
-    #print(valid)
     if x == 1 and y == 1:
         valid = valid.replace("e", "")
     elif x == 2 and y == 1:
@@ -42,7 +40,6 @@ def valid_travel_print(x, y):
          You can travel: (N)orth or (S)outh.
     """
     valid = valid_directions(x, y)
-    #print(valid)
     print("You can travel:", end="")
     to_print = ""
     for i in valid:
@@ -66,20 +63,19 @@ def move_player(user_input, x, y):
     returns new x and y coordinets
     """
     valid = valid_directions(x, y)
-    user_input_clean = user_input.strip().lower()
-    if user_input_clean in valid:
-        if user_input_clean == "s":
+    if user_input in valid:
+        if user_input == "s":
             y -= 1
-        elif user_input_clean == "w":
+        elif user_input == "w":
             x -= 1
-        elif user_input_clean == "n":
+        elif user_input == "n":
             y += 1
-        elif user_input_clean == "e":
+        elif user_input == "e":
             x += 1
         prev_pos[0] = False
     else:
-        prev_pos[0] = True
         print("Not a valid direction!")
+        prev_pos[0] = True
     
     return (x, y)
 
@@ -106,13 +102,12 @@ def lever_positions(x, y, coins):
 prev_pos = [False]
 
 def game_logic():
-    random_seed = int(input("Input seed: "))
-    random.seed(random_seed)
+    random.seed(int(input("Input seed: ")))
     x = 1
     y = 1
     coins = 0
-    kill = False
     moves = 0
+    kill = False
     while not kill:
         valid_travel_print(x, y)
         direction = random.choice(["NORTH", "EAST", "SOUTH", "WEST"])
@@ -135,7 +130,5 @@ def main():
         cmd = input('Play again (y/n): ').strip()
         if cmd.lower() != 'y':
             break
-        else:
-            prev_pos[0] = False
 
 main()
